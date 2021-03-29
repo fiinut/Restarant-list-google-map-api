@@ -1,6 +1,7 @@
 <template>
   <div class="home container">
     <div class="header-bar flex-container">
+      <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
       <div class="title">
         <span> Restaurants </span>
       </div>
@@ -16,6 +17,7 @@
 <script>
 import GoogleMapsLoader from 'google-maps'
 import RestaurantCard from '../components/RestaurantCard'
+import Loading from 'vue-loading-overlay';
 export default {
   name: 'Home',
   data(){
@@ -25,11 +27,13 @@ export default {
       searchInput: 'Bange Sue',
       locationSearch: { lat: 13.8235283, lng: 100.5081204 }, //set default lat,long value of 'bang sue'
       typeSearch: "restaurant",
-      inputLocation: ''
+      isLoading: false,
+      fullPage: false
     }
   },
   components: {
-    RestaurantCard
+    RestaurantCard,
+    Loading
   },
   watch: {
     searchInput(value){
@@ -60,7 +64,8 @@ export default {
         }
       })
     },
-    getRestaurantList(){ // Function for get list restaurant from google map api.      
+    getRestaurantList(){ // Function for get list restaurant from google map api.    
+      this.isLoading = true  
       this.dataList = []
       let map
       let service
@@ -78,6 +83,7 @@ export default {
       service = new google.maps.places.PlacesService(map);
       service.textSearch(request, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+          this.isLoading = false  
           results.forEach((e =>{
             this.placeDetail(e.place_id) //Call function 'placeDetail' by 'place_id'
           }))

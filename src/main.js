@@ -8,6 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
